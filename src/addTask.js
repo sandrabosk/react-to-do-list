@@ -11,17 +11,18 @@ class AddTask extends Component {
         };
     }
 
-    addTask(){
-
+    addTask(){ 
         // console.log('hello there: ', this.state.titleInput);
-        // console.log('wow there: ', this.state.descInput);
-
+        // console.log('wow there: ', this.state.descInput); 
         axios.post('http://localhost:5000/api/tasks/create', 
         { 
             title: this.state.titleInput,
             description: this.state.descInput             
         })
-        .then( res => console.log(res) )
+        .then( res => {
+            console.log(res);
+            this.props.blah();
+        } )
         .catch( err => console.log(err) )
     
         // clears the state

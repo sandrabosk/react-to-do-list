@@ -15,6 +15,21 @@ class App extends Component {
     };
   }
 
+  addOneTask(taskToAdd){
+    // console.log(' = = =  = = = = = = = = =')
+    // // slice makes duplicate of the array if no args are passed
+    // // duplicate the array
+    // const currentArray = this.state.theTasks.slice();
+    // // add new task to the duplicated array
+    // currentArray.push(taskToAdd);
+    // // update current array by reassigning it to the duplicate one
+    // this.setState({ theTasks: currentArray });
+    // console.log('new state: ', this.state)
+  }
+
+
+
+
   getAllTheTasks(){
     
     axios.get('http://localhost:5000/api/tasks')
@@ -45,7 +60,9 @@ class App extends Component {
       <h1>React.js - To Do App </h1>
 
       <div className="add">
-        <AddTask></AddTask>
+      {/* <AddTask blah={ () => {this.addOneTask()} } ></AddTask> */}
+
+        <AddTask blah={ () => {this.getAllTheTasks()} } ></AddTask>
       </div>
         <div className="list">
             <button onClick={() => {this.getAllTheTasks()}}>Get the tasks</button>
