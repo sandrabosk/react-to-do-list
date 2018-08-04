@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 
+import AddTask from './addTask';
+
 class App extends Component {
 
   constructor(props){
@@ -40,9 +42,15 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-       <h1>React.js - To Do App </h1>
-       <button onClick={() => {this.getAllTheTasks()}}>Get the tasks</button>
-       { this.showTasks() }
+      <h1>React.js - To Do App </h1>
+
+      <div className="add">
+        <AddTask></AddTask>
+      </div>
+        <div className="list">
+            <button onClick={() => {this.getAllTheTasks()}}>Get the tasks</button>
+            { this.showTasks() }
+       </div>
       </div>
     );
   }
