@@ -74,7 +74,8 @@ class App extends Component {
       this.state.theTasks.map( (task, index) => {
           return(
             <div key={ index } >
-              <button   onClick={ () => { this.toggleEditForm(index) }} style={{float:'right', backgroundColor: 'greenyellow'}}>Edit this task</button>
+              <button onClick={ () => { this.deleteTask(task._id) }} style={{backgroundColor:'red', float:'right', padding:'10px', margin: '0 5px'}}>Delete</button>
+              <button onClick={ () => { this.toggleEditForm(index) }} style={{float:'right', backgroundColor: 'greenyellow', padding:'10px', margin: '0 5px'}}>Edit this task</button>
               <h3>{ task.title }</h3>
               <p style={{ maxWidth:'400px' }}  >{ task.description }</p>
               { this.renderForm(index, task._id, task.title, task.description) }
