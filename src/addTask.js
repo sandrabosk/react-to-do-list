@@ -57,7 +57,7 @@ class AddTask extends Component {
           <label>Description</label>
           <input value={this.state.descInput} onChange={ e => {this.updateDesc(e)} } text="text"/>
           
-          <button onClick={ () => {this.addTask()}} >Add new task</button>
+          <button className="grn-btn"  onClick={ () => {this.addTask()}} >Add new task</button>
         </div>
       )
   
