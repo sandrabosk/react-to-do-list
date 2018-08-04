@@ -65,7 +65,8 @@ class App extends Component {
         <AddTask blah={ () => {this.getAllTheTasks()} } ></AddTask>
       </div>
         <div className="list">
-            <button onClick={() => {this.getAllTheTasks()}}>Get the tasks</button>
+          <h2>List of all the tasks</h2>
+            {/* <button onClick={() => {this.getAllTheTasks()}}>Get the tasks</button> */}
             { this.showTasks() }
        </div>
       </div>
