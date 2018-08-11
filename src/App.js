@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import AddTask from './addTask';
 import EditTask from './editTask';
+import User from './user';
 
 class App extends Component {
 
@@ -65,6 +66,16 @@ class App extends Component {
     }
   }
 
+  deleteTask(theIdOfTheTask){
+    axios.post(`http://localhost:5000/api/tasks/delete/${theIdOfTheTask}`, {})
+    .then( response => {
+      console.log(response);
+      this.getAllTheTasks();
+    } )
+    .catch( err => console.log(err) );
+
+  }
+
   showTasks(){
     // this is a hack to get all the tasks on the page right away, not on click
     if(this.state.theTasks.length === 0){
@@ -74,8 +85,8 @@ class App extends Component {
       this.state.theTasks.map( (task, index) => {
           return(
             <div key={ index } >
-              <button onClick={ () => { this.deleteTask(task._id) }} style={{backgroundColor:'red', float:'right', padding:'10px', margin: '0 5px'}}>Delete</button>
-              <button onClick={ () => { this.toggleEditForm(index) }} style={{float:'right', backgroundColor: 'greenyellow', padding:'10px', margin: '0 5px'}}>Edit this task</button>
+              <button onClick={ () => { this.deleteTask(task._id) }} style={{ backgroundColor:'red', float:'right', padding:'10px', margin: '0 5px'}}>Delete</button>
+              <button onClick={ () => { this.toggleEditForm(index) }} style={{ float:'right', backgroundColor: 'greenyellow', padding:'10px', margin: '0 5px'}}>Edit this task</button>
               <h3>{ task.title }</h3>
               <p style={{ maxWidth:'400px' }}  >{ task.description }</p>
               { this.renderForm(index, task._id, task.title, task.description) }
@@ -94,6 +105,7 @@ class App extends Component {
         {/* <AddTask blah={ () => {this.addOneTask()} } ></AddTask> */}
 
           <AddTask blah={ () => {this.getAllTheTasks()} } ></AddTask>
+          <User>  </User>
         </div>
         <div className="list">
           <h2>List of all the tasks</h2>
