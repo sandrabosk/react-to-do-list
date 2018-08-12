@@ -18,7 +18,8 @@ class AddTask extends Component {
         { 
             title: this.state.titleInput,
             description: this.state.descInput             
-        })
+        },
+        {withCredentials: true})
         .then( res => {
             console.log(res);
             this.props.blah();

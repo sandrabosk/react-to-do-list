@@ -7,17 +7,26 @@
 }
 
 .App {
-  margin: 0 80px;
+  margin: 0;
 }
 
 .list{
   float: left;
   width: 400px;
-  /* margin-left: 80px; */
+  margin-left: 80px;
 }
 
 .add {
   float: right;
-  /* margin-left: 80px; */
+  margin-right: 80px;
 }
 
+.footer{
+  margin-left: 0px !important;
+  background-color: #c242f4;
+  min-height: 100px;
+  clear: both;
+  display: flex;
+  justify-content: space-around;
+  align-items: baseline;
+}

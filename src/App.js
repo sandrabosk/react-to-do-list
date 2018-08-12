@@ -13,10 +13,45 @@ class App extends Component {
     super(props);
     // we introduce state to keep track 
     this.state = {
-      theTasks: [],
-      showing:false
+      theTasks: null,
+      showing:false,
+      loggedInUser: null
     };
   }
+
+
+  fetchUser(){
+    if( this.state.loggedInUser === null ){  
+        axios.get(`http://localhost:5000/api/loggedin`, {withCredentials: true})
+        .then((response)=>{
+            this.setState({
+                theTasks: this.state.theTasks,
+                showing: this.state.showing,
+                loggedInUser:  response.data,
+           }) 
+        })
+        .catch((err)=>{
+            this.setState({
+                theTasks: this.state.theTasks,
+                showing: this.state.showing,
+                loggedInUser:  false,
+           }); 
+        });
+    }
+}
+
+
+seeIfTaskBelongsToUser(task, index){
+ console.log('heyyy:', task.owner, '  = == = == ',this.state.loggedInUser)
+  if(this.state.loggedInUser && task.owner == this.state.loggedInUser._id ){
+    return (
+      <div>
+        <button onClick={ () => { this.deleteTask(task._id) }} style={{ backgroundColor:'red', float:'right', padding:'10px', margin: '0 5px'}}>Delete</button>
+        <button onClick={ () => { this.toggleEditForm(index) }} style={{ float:'right', backgroundColor: 'greenyellow', padding:'10px', margin: '0 5px'}}>Edit this task</button>
+      </div>
+    )
+  }
+}
 
 
   addOneTask(taskToAdd){
@@ -67,7 +102,7 @@ class App extends Component {
   }
 
   deleteTask(theIdOfTheTask){
-    axios.post(`http://localhost:5000/api/tasks/delete/${theIdOfTheTask}`, {})
+    axios.post(`http://localhost:5000/api/tasks/delete/${theIdOfTheTask}`, {}, {withCredentials: true})
     .then( response => {
       console.log(response);
       this.getAllTheTasks();
@@ -77,28 +112,32 @@ class App extends Component {
   }
 
   showTasks(){
+    // console.log('do i have tasks: ', typeof(this.state.theTasks))
     // this is a hack to get all the tasks on the page right away, not on click
-    if(this.state.theTasks.length === 0){
+    if(this.state.theTasks === null){
       this.getAllTheTasks();
     }
-    return (
-      this.state.theTasks.map( (task, index) => {
-          return(
-            <div key={ index } >
-              <button onClick={ () => { this.deleteTask(task._id) }} style={{ backgroundColor:'red', float:'right', padding:'10px', margin: '0 5px'}}>Delete</button>
-              <button onClick={ () => { this.toggleEditForm(index) }} style={{ float:'right', backgroundColor: 'greenyellow', padding:'10px', margin: '0 5px'}}>Edit this task</button>
-              <h3>{ task.title }</h3>
-              <p style={{ maxWidth:'400px' }}  >{ task.description }</p>
-              { this.renderForm(index, task._id, task.title, task.description) }
-            </div>
-          )
-      })
-    )
+
+    if(this.state.theTasks){
+      return (
+        this.state.theTasks.map( (task, index) => {
+            return(
+              <div key={ index } >
+                { this.seeIfTaskBelongsToUser(task,index) }
+                <h3>{ task.title }</h3>
+                <p style={{ maxWidth:'400px' }}  >{ task.description }</p>
+                { this.renderForm(index, task._id, task.title, task.description) }
+              </div>
+            )
+        })
+      )
+    } 
   }
 
   render() {
     return (
       <div className="App">
+      {this.fetchUser()}
       <h1>React.js - To Do App </h1>
 
         <div className="add">
@@ -111,6 +150,21 @@ class App extends Component {
           <h2>List of all the tasks</h2>
             {/* <button onClick={() => {this.getAllTheTasks()}}>Get the tasks</button> */}
             { this.showTasks() }
+        </div>
+        <div className="footer">
+          <ul> 
+            <h4>Copyright AF</h4>
+            <li> This Page is Beautiful </li>
+            <li> This Page is a strong, self-loving individual </li>
+          </ul>
+          <ul>
+            <h4> All Rights Reserved </h4>
+            <li> Property Of React Bindings Corp </li>
+          </ul>
+          <ul>
+            <h4> External Resources </h4>
+            <li> Check our the Docs </li>
+          </ul>
         </div>
       </div>
     );
