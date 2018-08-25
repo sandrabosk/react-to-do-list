@@ -17,28 +17,40 @@ class TodoList extends Component {
       showing:false,
       loggedInUser: null
     };
+    console.log(' = = == = == =',this.props);
+    
   }
 
-// this is like checkIfLoggedIn
-  fetchUser(){
-    if( this.state.loggedInUser === null ){  
-        axios.get(`http://localhost:5000/api/loggedin`, {withCredentials: true})
-        .then((response)=>{
-            this.setState({
-                theTasks: this.state.theTasks,
-                showing: this.state.showing,
-                loggedInUser:  response.data,
-           }) 
-        })
-        .catch((err)=>{
-            this.setState({
-                theTasks: this.state.theTasks,
-                showing: this.state.showing,
-                loggedInUser:  false,
-           }); 
-        });
-    }
+
+
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps["theActualUser"])
+  this.setState({...this.state, loggedInUser: nextProps["theActualUser"]})
+
+  console.log(this.state)
 }
+
+// this is like checkIfLoggedIn
+//   fetchUser(){
+//     if( this.state.loggedInUser === null ){  
+//         axios.get(`http://localhost:5000/api/loggedin`, {withCredentials: true})
+//         .then((response)=>{
+//             this.setState({
+//                 theTasks: this.state.theTasks,
+//                 showing: this.state.showing,
+//                 loggedInUser:  response.data,
+//            }) 
+//         })
+//         .catch((err)=>{
+//             this.setState({
+//                 theTasks: this.state.theTasks,
+//                 showing: this.state.showing,
+//                 loggedInUser:  false,
+//            }); 
+//         });
+//     }
+// }
 
 
 seeIfTaskBelongsToUser(task, index){
@@ -135,42 +147,20 @@ seeIfTaskBelongsToUser(task, index){
   }
 
 
-  getUserFromUserComponent = (userObj) => {
-    this.setState({loggedInUser: userObj})
-  }
-
-
+  
   render() {
     return (
       <div className="App">
-      {this.fetchUser()}
       <h1>React.js - To Do App </h1>
 
         <div className="add">
-        {/* <AddTask blah={ () => {this.addOneTask()} } ></AddTask> */}
 
           <AddTask blah={ () => {this.getAllTheTasks()} } ></AddTask>
-          <User sendIt={this.getUserFromUserComponent}>  </User>
+          <User sendIt={this.props.sendTheUser}></User>
         </div>
         <div className="list">
           <h2>List of all the tasks</h2>
-            {/* <button onClick={() => {this.getAllTheTasks()}}>Get the tasks</button> */}
             { this.showTasks() }
-        </div>
-        <div className="footer">
-          <ul> 
-            <h4>Copyright AF</h4>
-            <li> This Page is Beautiful </li>
-            <li> This Page is a strong, self-loving individual </li>
-          </ul>
-          <ul>
-            <h4> All Rights Reserved </h4>
-            <li> Property Of React Bindings Corp </li>
-          </ul>
-          <ul>
-            <h4> External Resources </h4>
-            <li> Check out the Docs </li>
-          </ul>
         </div>
       </div>
     );
