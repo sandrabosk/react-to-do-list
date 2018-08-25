@@ -1,3 +1,7 @@
+#theBody {
+  height: 81vh;
+}
+
 .grn-btn {
   width: 150px;
   background-color: green;
@@ -21,7 +25,7 @@
   margin-right: 80px;
 }
 
-.footer{
+.footer {
   margin-left: 0px !important;
   background-color: #c242f4;
   min-height: 100px;
@@ -29,4 +33,30 @@
   display: flex;
   justify-content: space-around;
   align-items: baseline;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer ul {
+  display: flex;
+  flex-direction: column;
+  width: 33%;
+  text-align: center;
+}
+
+li {
+  list-style: none;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  height: 7vh;
+  background-color: lightslategray;
+  padding: 0 5vw;
+}
+
+nav a {
+  padding: 0 20px;
+  text-decoration: none;
 }

@@ -12,6 +12,15 @@ class User extends Component {
         };
     }
 
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps["theActualUser"])
+      this.setState({...this.state, loggedInUser: nextProps["theActualUser"]})
+    
+      console.log(this.state)
+    }
+
+
+
     updateUsername(e){
         this.setState({
             usernameInput: e.target.value,
@@ -39,29 +48,30 @@ class User extends Component {
                 passwordInput: '',
                 loggedInUser: response.data
             });
+            this.props.sendIt(response.data);
         } )
         .catch( err => {
             console.log(err);
         } )
     }
 
-    showUser(){
-        this.fetchUser();
-        // return this.state.loggedInUser? `Welcome, ${this.state.loggedInUser.username}` : 'User component';
-        if(this.state.loggedInUser){
-            return (
-                <div>
-                    <h3>Welcome, {this.state.loggedInUser.username}.</h3>
-                    <button onClick={() => {this.logout()}}>Logout</button>
-                </div>
-        );
-        } else {
-            return (
-                <div>
-                User component
-                </div>);
-        }
-    }
+    // showUser(){
+    //     this.fetchUser();
+    //     // return this.state.loggedInUser? `Welcome, ${this.state.loggedInUser.username}` : 'User component';
+    //     if(this.state.loggedInUser){
+    //         return (
+    //             <div>
+    //                 <h3>Welcome, {this.state.loggedInUser.username}.</h3>
+    //                 <button onClick={() => {this.logout()}}>Logout</button>
+    //             </div>
+    //     );
+    //     } else {
+    //         return (
+    //             <div>
+    //             User component
+    //             </div>);
+    //     }
+    // }
 
     signup(){
         const username = this.state.usernameInput;
@@ -73,6 +83,7 @@ class User extends Component {
                 passwordInput: '',
                 loggedInUser: response.data
             });
+            this.props.sendIt(response.data);
         } )
         .catch( err => {
             console.log(err);
@@ -80,22 +91,23 @@ class User extends Component {
     }
 
 
-    logout(){
-        const username = this.state.usernameInput;
-        const password = this.state.passwordInput;
-        axios.post(`http://localhost:5000/api/logout`, {}, { withCredentials:true })
-        .then( response => {
-            this.setState({
-                usernameInput: '',
-                passwordInput: '',
-                loggedInUser: null // this is important because of the fetchUser, 
-                //to set the user back to null because fetch if it fails set it to false
-            });
-        } )
-        .catch( err => {
-            console.log(err);
-        } )
-    }
+    // logout(){
+    //     const username = this.state.usernameInput;
+    //     const password = this.state.passwordInput;
+    //     axios.post(`http://localhost:5000/api/logout`, {}, { withCredentials:true })
+    //     .then( response => {
+    //         this.setState({
+    //             usernameInput: '',
+    //             passwordInput: '',
+    //             loggedInUser: null // this is important because of the fetchUser, 
+    //             //to set the user back to null because fetch if it fails set it to false
+    //         });
+    //         this.props.sendIt(null);
+    //     } )
+    //     .catch( err => {
+    //         console.log(err);
+    //     } )
+    // }
 
 
     fetchUser(){
@@ -107,6 +119,7 @@ class User extends Component {
                     passwordInput: this.state.passwordInput,
                     loggedInUser:  response.data,
                }) 
+               this.props.sendIt(response.data);
             })
             .catch((err)=>{
                 this.setState({
@@ -137,7 +150,7 @@ class User extends Component {
     render(){
         return ( 
             <div>
-                { this.showUser() }
+                {/* { this.showUser() } */}
                 { this.showForm() }
             </div>
         )

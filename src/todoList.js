@@ -156,7 +156,7 @@ seeIfTaskBelongsToUser(task, index){
         <div className="add">
 
           <AddTask blah={ () => {this.getAllTheTasks()} } ></AddTask>
-          <User sendIt={this.props.sendTheUser}></User>
+          <User theActualUser={this.state.loggedInUser} sendIt={this.props.sendTheUser}></User>
         </div>
         <div className="list">
           <h2>List of all the tasks</h2>
